@@ -3,698 +3,670 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Translator Code Morse - Premium</title>
+    <title>Translator Kode Morse Profesional</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        :root {
-            --primary: #2563eb;
-            --secondary: #1e40af;
-            --accent: #f59e0b;
-            --dark: #0f172a;
-            --light: #f8fafc;
-            --gray: #64748b;
-            --success: #10b981;
-            --warning: #f59e0b;
-            --danger: #ef4444;
-        }
-
         body {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            color: var(--light);
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #1a2a6c, #2c3e50, #4a235a);
             min-height: 100vh;
-            padding-bottom: 80px;
-            position: relative;
             overflow-x: hidden;
+            background-attachment: fixed;
         }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        /* Header Styles */
-        header {
-            background: rgba(15, 23, 42, 0.8);
-            backdrop-filter: blur(10px);
-            padding: 20px 0;
-            border-bottom: 1px solid rgba(148, 163, 184, 0.2);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .logo-icon {
-            font-size: 2.5rem;
-            color: var(--accent);
-        }
-
-        .logo-text {
-            font-size: 1.8rem;
-            font-weight: 700;
-            background: linear-gradient(to right, var(--accent), var(--primary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 20px;
-        }
-
-        .nav-links a {
-            color: var(--light);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s ease;
-            padding: 8px 16px;
-            border-radius: 25px;
-        }
-
-        .nav-links a:hover {
-            color: var(--accent);
-            background: rgba(245, 158, 11, 0.1);
-        }
-
-        /* Notification Styles */
+        
         .notification {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(30, 41, 59, 0.95);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(148, 163, 184, 0.3);
-            border-radius: 15px;
-            padding: 20px 30px;
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            z-index: 1000;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-            animation: slideDown 0.5s ease-out;
+            transform: translateY(-100%);
+            transition: transform 0.5s ease-out;
         }
-
-        @keyframes slideDown {
-            from {
-                top: -100px;
-                opacity: 0;
-            }
-            to {
-                top: 20px;
-                opacity: 1;
-            }
+        
+        .notification.show {
+            transform: translateY(0);
         }
-
-        .notification-content {
-            flex: 1;
+        
+        .pulse {
+            animation: pulse 2s infinite;
         }
-
-        .notification h3 {
-            font-size: 1.2rem;
-            margin-bottom: 8px;
-            color: var(--accent);
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(139, 92, 246, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0); }
         }
-
-        .notification p {
-            font-size: 0.9rem;
-            color: var(--light);
-            margin-bottom: 15px;
+        
+        .float {
+            animation: float 3s ease-in-out infinite;
         }
-
-        .notification-buttons {
-            display: flex;
-            gap: 10px;
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
-
-        .btn {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 25px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+        
+        .typing-animation::after {
+            content: '|';
+            animation: blink 1s infinite;
         }
-
-        .btn-primary {
-            background: var(--primary);
-            color: white;
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
         }
-
-        .btn-primary:hover {
-            background: var(--secondary);
-            transform: translateY(-2px);
-        }
-
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.1);
-            color: var(--light);
-            border: 1px solid rgba(148, 163, 184, 0.3);
-        }
-
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        .close-btn {
-            background: none;
-            border: none;
-            color: var(--light);
-            font-size: 1.5rem;
-            cursor: pointer;
-            width: 30px;
-            height: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        
+        .morse-dot {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background-color: #f43f5e;
             border-radius: 50%;
-            transition: background 0.3s ease;
+            margin: 0 2px;
+            animation: blink-dot 1s infinite;
         }
-
-        .close-btn:hover {
-            background: rgba(255, 255, 255, 0.1);
+        
+        .morse-dash {
+            display: inline-block;
+            width: 20px;
+            height: 10px;
+            background-color: #f43f5e;
+            border-radius: 5px;
+            margin: 0 2px;
+            animation: blink-dot 1s infinite;
         }
-
-        /* Main Content */
-        .main-content {
-            margin-top: 40px;
+        
+        @keyframes blink-dot {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
         }
-
-        .page-title {
-            text-align: center;
-            margin-bottom: 30px;
-            position: relative;
+        
+        .glow {
+            text-shadow: 0 0 10px rgba(168, 85, 247, 0.7);
         }
-
-        .page-title h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            background: linear-gradient(to right, var(--accent), var(--primary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        
+        .transition-all {
+            transition: all 0.3s ease;
         }
-
-        .page-title p {
-            color: var(--gray);
-            font-size: 1.1rem;
-            max-width: 700px;
+        
+        .btn-hover:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-active:active {
+            transform: translateY(1px);
+        }
+        
+        textarea {
+            resize: vertical;
+            min-height: 150px;
+            max-height: 400px;
+        }
+        
+        .language-flag {
+            width: 20px;
+            height: 15px;
+            margin-right: 8px;
+            border-radius: 2px;
+            display: inline-block;
+        }
+        
+        .loader {
+            width: 24px;
+            height: 24px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 3px solid #8b5cf6;
+            animation: spin 1s linear infinite;
             margin: 0 auto;
         }
-
-        /* Tabs */
-        .tabs {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
-
-        .tab {
-            padding: 12px 25px;
-            background: rgba(30, 41, 59, 0.6);
-            border: 1px solid rgba(148, 163, 184, 0.2);
-            border-radius: 25px;
-            color: var(--light);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 500;
+        
+        .character-count {
+            position: absolute;
+            bottom: 8px;
+            right: 12px;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
         }
-
-        .tab.active {
-            background: var(--primary);
-            border-color: var(--primary);
-            color: white;
+        
+        .valid {
+            border-color: #10b981 !important;
         }
-
-        .tab:hover:not(.active) {
-            background: rgba(30, 41, 59, 0.8);
+        
+        .invalid {
+            border-color: #ef4444 !important;
+            animation: shake 0.5s;
         }
-
-        /* Converter Container */
-        .converter-container {
-            background: rgba(30, 41, 59, 0.6);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(148, 163, 184, 0.2);
-            border-radius: 20px;
-            padding: 30px;
-            margin-bottom: 30px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
         }
-
-        .converter-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .converter-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: var(--accent);
-        }
-
-        .language-selector {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .language-selector select {
-            background: rgba(15, 23, 42, 0.8);
-            border: 1px solid rgba(148, 163, 184, 0.3);
-            color: var(--light);
-            padding: 10px 15px;
-            border-radius: 10px;
-            font-size: 1rem;
-            outline: none;
-        }
-
-        /* Input/Output Areas */
-        .input-group {
-            margin-bottom: 20px;
-        }
-
-        .input-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-            color: var(--light);
-        }
-
-        textarea {
-            width: 100%;
-            height: 150px;
-            background: rgba(15, 23, 42, 0.8);
-            border: 1px solid rgba(148, 163, 184, 0.3);
-            border-radius: 15px;
-            padding: 15px;
-            color: var(--light);
-            font-size: 1rem;
-            resize: vertical;
-            transition: border-color 0.3s ease;
-        }
-
-        textarea:focus {
-            outline: none;
-            border-color: var(--primary);
-        }
-
-        .action-buttons {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-
-        .action-btn {
-            padding: 12px 25px;
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 15px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .action-btn:hover {
-            background: var(--secondary);
-            transform: translateY(-2px);
-        }
-
-        .action-btn.secondary {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(148, 163, 184, 0.3);
-        }
-
-        .action-btn.secondary:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        .copy-btn {
-            background: rgba(16, 185, 129, 0.2);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-        }
-
-        .copy-btn:hover {
-            background: rgba(16, 185, 129, 0.3);
-        }
-
-        /* Output Area */
-        .output-container {
-            background: rgba(15, 23, 42, 0.8);
-            border: 1px solid rgba(148, 163, 184, 0.3);
-            border-radius: 15px;
-            padding: 20px;
-            min-height: 150px;
-            max-height: 300px;
-            overflow-y: auto;
-            position: relative;
-        }
-
-        .output-text {
-            font-family: 'Courier New', monospace;
-            line-height: 1.6;
-            white-space: pre-wrap;
-            word-break: break-word;
-        }
-
-        .empty-state {
-            text-align: center;
-            color: var(--gray);
-            padding: 40px 20px;
-        }
-
-        .empty-state i {
-            font-size: 3rem;
-            margin-bottom: 15px;
-            color: rgba(148, 163, 184, 0.3);
-        }
-
-        /* Features Section */
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            margin: 50px 0;
-        }
-
+        
         .feature-card {
-            background: rgba(30, 41, 59, 0.6);
-            border: 1px solid rgba(148, 163, 184, 0.2);
-            border-radius: 20px;
-            padding: 25px;
-            transition: transform 0.3s ease;
+            transition: all 0.3s ease;
+            transform: translateY(0);
         }
-
+        
         .feature-card:hover {
-            transform: translateY(-5px);
-            background: rgba(30, 41, 59, 0.8);
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
         }
-
-        .feature-icon {
-            font-size: 2.5rem;
-            color: var(--accent);
-            margin-bottom: 15px;
-        }
-
-        .feature-card h3 {
-            font-size: 1.3rem;
-            margin-bottom: 10px;
-            color: var(--light);
-        }
-
-        .feature-card p {
-            color: var(--gray);
-            line-height: 1.6;
-        }
-
-        /* Footer */
-        footer {
-            background: rgba(15, 23, 42, 0.95);
-            border-top: 1px solid rgba(148, 163, 184, 0.2);
-            padding: 40px 0 20px;
-            margin-top: 50px;
-        }
-
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-bottom: 30px;
-        }
-
-        .footer-section h3 {
-            font-size: 1.3rem;
-            margin-bottom: 20px;
-            color: var(--accent);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .footer-section p {
-            color: var(--gray);
-            line-height: 1.6;
-            margin-bottom: 15px;
-        }
-
-        .footer-section ul {
-            list-style: none;
-        }
-
-        .footer-section ul li {
-            margin-bottom: 10px;
-        }
-
-        .footer-section ul li a {
-            color: var(--gray);
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .footer-section ul li a:hover {
-            color: var(--accent);
-        }
-
-        .copyright {
-            text-align: center;
-            padding-top: 20px;
-            border-top: 1px solid rgba(148, 163, 184, 0.2);
-            color: var(--gray);
-            font-size: 0.9rem;
-        }
-
-        .support-banner {
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            padding: 20px;
-            border-radius: 15px;
-            text-align: center;
-            margin: 30px 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-
-        .support-banner span {
-            font-weight: 600;
-        }
-
-        .support-banner a {
-            background: white;
-            color: var(--primary);
-            padding: 10px 20px;
-            border-radius: 25px;
-            text-decoration: none;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+        
+        .step-card {
             transition: all 0.3s ease;
         }
-
-        .support-banner a:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        
+        .step-card:hover {
+            transform: scale(1.05);
         }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .header-content {
-                flex-direction: column;
-                gap: 20px;
-            }
-
-            .nav-links {
-                width: 100%;
-                justify-content: center;
-            }
-
-            .page-title h1 {
-                font-size: 2rem;
-            }
-
-            .converter-container {
-                padding: 20px;
-            }
-
-            .action-buttons {
-                flex-direction: column;
-            }
-
-            .notification {
-                width: 90%;
-                left: 5%;
-                padding: 15px 20px;
-            }
-
-            .notification-buttons {
-                flex-direction: column;
-                width: 100%;
-            }
-
-            .btn {
-                width: 100%;
-                justify-content: center;
-            }
+        
+        .input-field:focus {
+            outline: none;
+            ring: 2px solid #8b5cf6;
         }
-
-        @media (max-width: 480px) {
-            .logo-text {
-                font-size: 1.5rem;
-            }
-
-            .page-title h1 {
-                font-size: 1.8rem;
-            }
-
-            .tab {
-                padding: 10px 15px;
-                font-size: 0.9rem;
-            }
-
-            .action-btn {
-                padding: 10px 15px;
-                font-size: 0.9rem;
-            }
+        
+        .footer-bg {
+            background: linear-gradient(to right, #1a2a6c, #2c3e50);
         }
     </style>
 </head>
-<body>
-    <!-- Notification Floating -->
-    <div id="notification" class="notification" style="display: none;">
-        <div class="notification-content">
-            <h3>Selamat Datang di Translator Code Morse</h3>
-            <p>Platform premium untuk mengubah teks menjadi kode Morse dan sebaliknya</p>
-            <div class="notification-buttons">
-                <button class="btn btn-primary" onclick="joinChannel()">
-                    <i class="fas fa-users"></i> Join Saluran Developer
+<body class="text-white">
+    <!-- Notification -->
+    <div id="welcomeNotification" class="notification fixed top-0 left-0 right-0 bg-gradient-to-r from-purple-700 to-indigo-900 text-white shadow-2xl z-50">
+        <div class="container mx-auto px-4 py-4 flex flex-col sm:flex-row justify-between items-center">
+            <div class="mb-3 sm:mb-0">
+                <h3 class="font-bold text-lg flex items-center">
+                    <i class="fas fa-star mr-2 text-yellow-300"></i>
+                    Selamat datang di Website Translator Code Morse
+                </h3>
+            </div>
+            <div class="flex space-x-3">
+                <button id="closeNotification" class="bg-gray-600 hover:bg-gray-700 transition-colors px-4 py-2 rounded-full text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 flex items-center">
+                    <i class="fas fa-times mr-1"></i> Tutup
                 </button>
-                <button class="btn btn-secondary" onclick="closeNotification()">
-                    <i class="fas fa-times"></i> Tutup
-                </button>
+                <a href="https://whatsapp.com/channel/0029VbAvor87IUYSwUlARF2l" target="_blank" class="bg-green-500 hover:bg-green-600 transition-colors px-4 py-2 rounded-full text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 flex items-center">
+                    <i class="fab fa-whatsapp mr-1"></i> Support Dev
+                </a>
             </div>
         </div>
     </div>
 
-    <!-- Header -->
-    <header>
-        <div class="container">
-            <div class="header-content">
-                <div class="logo">
-                    <i class="fas fa-code logo-icon"></i>
-                    <div class="logo-text">Translator Code Morse</div>
-                </div>
-                <div class="nav-links">
-                    <a href="#"><i class="fas fa-home"></i> Beranda</a>
-                    <a href="#"><i class="fas fa-info-circle"></i> Tentang</a>
-                    <a href="#"><i class="fas fa-envelope"></i> Kontak</a>
-                </div>
-            </div>
-        </div>
-    </header>
-
     <!-- Main Content -->
-    <div class="container">
-        <div class="main-content">
-            <div class="page-title">
-                <h1>Translator Code Morse Premium</h1>
-                <p>Alat canggih untuk mengubah teks menjadi kode Morse dan sebaliknya, termasuk bahasa kuno dan berbagai bahasa global</p>
+    <div class="container mx-auto px-4 py-8">
+        <div class="text-center mb-12">
+            <div class="flex justify-center mb-4">
+                <div class="bg-white p-3 rounded-full float shadow-lg">
+                    <span class="text-3xl text-purple-700"><i class="fas fa-radiation"></i></span>
+                </div>
             </div>
+            <h1 class="text-4xl md:text-5xl font-bold mb-4 glow">Morse Code Translator</h1>
+            <p class="text-xl text-purple-100 max-w-3xl mx-auto leading-relaxed">
+                Konversi teks biasa ke kode Morse dan sebaliknya dengan cepat dan akurat. 
+                Dukungan untuk ribuan karakter dan berbagai bahasa!
+            </p>
+        </div>
 
-            <!-- Tabs -->
-            <div class="tabs">
-                <div class="tab active" onclick="switchTab('morse')">Kode Morse</div>
-                <div class="tab" onclick="switchTab('ancient')">Bahasa Kuno</div>
-                <div class="tab" onclick="switchTab('translation')">Terjemahan</div>
-            </div>
-
-            <!-- Converter Container -->
-            <div class="converter-container">
-                <div class="converter-header">
-                    <div class="converter-title">Konverter Kode</div>
-                    <div class="language-selector">
-                        <select id="languageSelect">
-                            <option value="Indonesia">Indonesia</option>
-                            <option value="Malaysia">Malaysia</option>
-                            <option value="Kamboja">Kamboja</option>
-                            <option value="Philipina">Philipina</option>
-                            <option value="Arab">Arab</option>
-                            <option value="Inggris">Inggris</option>
-                            <option value="Rusia">Rusia</option>
-                            <option value="Jepang">Jepang</option>
-                            <option value="Korea Selatan">Korea Selatan</option>
-                            <option value="Korea Utara">Korea Utara</option>
-                            <option value="Vietnam">Vietnam</option>
-                            <option value="Afrika">Afrika</option>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+            <!-- Input Section -->
+            <div class="bg-gray-800 bg-opacity-40 backdrop-blur-sm rounded-2xl p-6 shadow-2xl border border-purple-500/20 hover:border-purple-400/40 transition-all">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-2xl font-bold flex items-center">
+                        <span class="mr-2"><i class="fas fa-keyboard text-purple-400"></i></span>
+                        Teks Input
+                    </h2>
+                    <div class="relative">
+                        <select id="inputLanguage" class="bg-gray-700 text-white rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500 appearance-none input-field">
+                            <option value="id">🇮🇩 Indonesia</option>
+                            <option value="ms">🇲🇾 Malaysia</option>
+                            <option value="sg">🇸🇬 Singapura</option>
+                            <option value="th">🇹🇭 Thailand</option>
+                            <option value="vi">🇻🇳 Vietnam</option>
+                            <option value="es">🇪🇸 Spanyol</option>
+                            <option value="km">🇰🇭 Kamboja</option>
+                            <option value="ru">🇷🇺 Rusia</option>
+                            <option value="ar">🇸🇦 Arab</option>
+                            <option value="zh">🇨🇳 China</option>
+                            <option value="morse">· — Morse</option>
                         </select>
-                    </div>
-                </div>
-
-                <!-- Input Area -->
-                <div class="input-group">
-                    <label for="inputText">Masukkan Teks:</label>
-                    <textarea id="inputText" placeholder="Ketik teks yang ingin Anda konversi..."></textarea>
-                </div>
-
-                <!-- Action Buttons -->
-                <div class="action-buttons">
-                    <button class="action-btn" onclick="convertToMorse()">
-                        <i class="fas fa-arrow-right"></i> Konversi ke Morse
-                    </button>
-                    <button class="action-btn secondary" onclick="convertFromMorse()">
-                        <i class="fas fa-arrow-left"></i> Konversi dari Morse
-                    </button>
-                    <button class="action-btn secondary" onclick="clearAll()">
-                        <i class="fas fa-trash"></i> Bersihkan
-                    </button>
-                    <button class="action-btn copy-btn" onclick="copyOutput()">
-                        <i class="fas fa-copy"></i> Salin Hasil
-                    </button>
-                </div>
-
-                <!-- Output Area -->
-                <div class="input-group">
-                    <label for="outputText">Hasil Konversi:</label>
-                    <div class="output-container">
-                        <div id="outputText" class="output-text">
-                            Hasil akan muncul di sini...
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-300">
+                            <i class="fas fa-chevron-down"></i>
                         </div>
                     </div>
                 </div>
+                
+                <div class="relative">
+                    <textarea id="textInput" class="w-full bg-gray-700 bg-opacity-50 text-white rounded-xl p-4 focus:outline-none focus:ring-2 focus:ring-purple-500 w-full transition-all input-field" placeholder="Masukkan teks di sini..."></textarea>
+                    <div class="character-count">0/5000</div>
+                </div>
+                
+                <div class="mt-4 flex flex-wrap gap-3">
+                    <button id="toMorse" class="flex-1 sm:flex-initial bg-purple-600 hover:bg-purple-700 btn-hover btn-active text-white font-medium py-3 px-4 rounded-lg transition-all flex items-center justify-center">
+                        <i class="fas fa-arrow-right mr-2"></i> Teks ke Morse
+                    </button>
+                    <button id="toText" class="flex-1 sm:flex-initial bg-blue-600 hover:bg-blue-700 btn-hover btn-active text-white font-medium py-3 px-4 rounded-lg transition-all flex items-center justify-center">
+                        <i class="fas fa-arrow-left mr-2"></i> Morse ke Teks
+                    </button>
+                    <button id="clearInput" class="flex-1 sm:flex-initial bg-gray-600 hover:bg-gray-700 btn-hover btn-active text-white font-medium py-3 px-4 rounded-lg transition-all flex items-center justify-center">
+                        <i class="fas fa-trash-alt mr-2"></i> Bersihkan
+                    </button>
+                </div>
             </div>
 
-            <!-- Support Banner -->
-            <div class="support-banner">
-                <span>Dukung Developer dengan Bergabung ke Channel WhatsApp</span>
-                <a href="https://whatsapp.com/channel/0029VbAvor87IUYSwUlARF2l" target="_blank">
-                    <i class="fab fa-whatsapp"></i
+            <!-- Output Section -->
+            <div class="bg-gray-800 bg-opacity-40 backdrop-blur-sm rounded-2xl p-6 shadow-2xl border border-purple-500/20 hover:border-purple-400/40 transition-all">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-2xl font-bold flex items-center">
+                        <span class="mr-2"><i class="fas fa-code text-blue-400"></i></span>
+                        Hasil Konversi
+                    </h2>
+                    <div class="relative">
+                        <select id="outputLanguage" class="bg-gray-700 text-white rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500 appearance-none input-field">
+                            <option value="id">🇮🇩 Indonesia</option>
+                            <option value="ms">🇲🇾 Malaysia</option>
+                            <option value="sg">🇸🇬 Singapura</option>
+                            <option value="th">🇹🇭 Thailand</option>
+                            <option value="vi">🇻🇳 Vietnam</option>
+                            <option value="es">🇪🇸 Spanyol</option>
+                            <option value="km">🇰🇭 Kamboja</option>
+                            <option value="ru">🇷🇺 Rusia</option>
+                            <option value="ar">🇸🇦 Arab</option>
+                            <option value="zh">🇨🇳 China</option>
+                            <option value="morse">· — Morse</option>
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-300">
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="relative">
+                    <textarea id="outputText" class="w-full bg-gray-700 bg-opacity-50 text-white rounded-xl p-4 focus:outline-none focus:ring-2 focus:ring-purple-500 w-full transition-all input-field" placeholder="Hasil konversi akan muncul di sini..." readonly></textarea>
+                    <div class="character-count">0/5000</div>
+                </div>
+                
+                <div class="mt-4 flex flex-wrap gap-3">
+                    <button id="playAudio" class="flex-1 sm:flex-initial bg-yellow-600 hover:bg-yellow-700 btn-hover btn-active text-white font-medium py-3 px-4 rounded-lg transition-all flex items-center justify-center">
+                        <i class="fas fa-volume-up mr-2"></i> Putar Audio
+                    </button>
+                    <button id="clearOutput" class="flex-1 sm:flex-initial bg-gray-600 hover:bg-gray-700 btn-hover btn-active text-white font-medium py-3 px-4 rounded-lg transition-all flex items-center justify-center">
+                        <i class="fas fa-trash-alt mr-2"></i> Bersihkan
+                    </button>
+                    <button id="copyOutput" class="flex-1 sm:flex-initial bg-green-600 hover:bg-green-700 btn-hover btn-active text-white font-medium py-3 px-4 rounded-lg transition-all flex items-center justify-center">
+                        <i class="fas fa-copy mr-2"></i> Salin
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Features Section -->
+        <div class="bg-gray-800 bg-opacity-30 backdrop-blur-sm rounded-2xl p-6 shadow-2xl mb-12 border border-purple-500/20">
+            <h2 class="text-2xl font-bold text-center mb-8">Fitur Unggulan</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="feature-card bg-gray-700 rounded-xl p-5 text-center hover:bg-purple-900/30 transition-all border border-purple-500/20">
+                    <div class="text-purple-400 text-4xl mb-3"><i class="fas fa-infinity"></i></div>
+                    <h3 class="text-xl font-semibold mb-2">Tanpa Batas Karakter</h3>
+                    <p class="text-gray-300 text-sm">Dukungan untuk input hingga ribuan karakter tanpa batas</p>
+                </div>
+                <div class="feature-card bg-gray-700 rounded-xl p-5 text-center hover:bg-purple-900/30 transition-all border border-purple-500/20">
+                    <div class="text-purple-400 text-4xl mb-3"><i class="fas fa-globe-asia"></i></div>
+                    <h3 class="text-xl font-semibold mb-2">Multi Bahasa</h3>
+                    <p class="text-gray-300 text-sm">Dukungan 10+ bahasa termasuk bahasa Morse itu sendiri</p>
+                </div>
+                <div class="feature-card bg-gray-700 rounded-xl p-5 text-center hover:bg-purple-900/30 transition-all border border-purple-500/20">
+                    <div class="text-purple-400 text-4xl mb-3"><i class="fas fa-shield-alt"></i></div>
+                    <h3 class="text-xl font-semibold mb-2">Validasi Input</h3>
+                    <p class="text-gray-300 text-sm">Sistem validasi canggih untuk memastikan input yang benar</p>
+                </div>
+                <div class="feature-card bg-gray-700 rounded-xl p-5 text-center hover:bg-purple-900/30 transition-all border border-purple-500/20">
+                    <div class="text-purple-400 text-4xl mb-3"><i class="fas fa-bolt"></i></div>
+                    <h3 class="text-xl font-semibold mb-2">Konversi Cepat</h3>
+                    <p class="text-gray-300 text-sm">Konversi instan tanpa penundaan, bekerja secara real-time</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- How to Use Section -->
+        <div class="bg-gray-800 bg-opacity-30 backdrop-blur-sm rounded-2xl p-6 shadow-2xl border border-purple-500/20">
+            <h2 class="text-2xl font-bold text-center mb-8">Cara Menggunakan</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="step-card bg-gray-700 rounded-xl p-6 text-center hover:bg-purple-900/30 transition-all">
+                    <div class="bg-purple-600 text-white w-14 h-14 rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4">1</div>
+                    <h3 class="text-xl font-semibold mb-3">Masukkan Teks</h3>
+                    <p class="text-gray-300 text-sm">Ketik atau tempel teks yang ingin Anda konversi di kotak input</p>
+                </div>
+                <div class="step-card bg-gray-700 rounded-xl p-6 text-center hover:bg-purple-900/30 transition-all">
+                    <div class="bg-purple-600 text-white w-14 h-14 rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4">2</div>
+                    <h3 class="text-xl font-semibold mb-3">Pilih Konversi</h3>
+                    <p class="text-gray-300 text-sm">Pilih "Teks ke Morse" atau "Morse ke Teks" sesuai kebutuhan</p>
+                </div>
+                <div class="step-card bg-gray-700 rounded-xl p-6 text-center hover:bg-purple-900/30 transition-all">
+                    <div class="bg-purple-600 text-white w-14 h-14 rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4">3</div>
+                    <h3 class="text-xl font-semibold mb-3">Salin atau Putar</h3>
+                    <p class="text-gray-300 text-sm">Salin hasil atau putar audio kode Morse yang dihasilkan</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer-bg py-8 mt-12 border-t border-purple-500/20">
+        <div class="container mx-auto px-4 text-center">
+            <div class="flex justify-center mb-4">
+                <div class="morse-dot mr-1"></div>
+                <div class="morse-dash mr-1"></div>
+                <div class="morse-dot mr-1"></div>
+                <div class="morse-dash mr-1"></div>
+                <div class="morse-dot"></div>
+            </div>
+            <p class="text-gray-300 mb-2">© HamzOffcial Morse Code Translator <span class="text-red-500">♥</span> untuk memudahkan dalam code Morse </p>
+            <p class="text-gray-400 text-sm">Channel WhatsApp: <a href="https://whatsapp.com/channel/0029VbAvor87IUYSwUlARF2l" target="_blank" class="text-purple-400 hover:underline">Klik di sini untuk support developer</a></p>
+        </div>
+    </footer>
+
+    <!-- Audio element for Morse code playback -->
+    <audio id="morseAudio" preload="auto">
+        <source src="https://upload.wikimedia.org/wikipedia/commons/4/4c/Beacon.ogg" type="audio/ogg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Show welcome notification with animation
+            setTimeout(() => {
+                document.getElementById('welcomeNotification').classList.add('show');
+            }, 500);
+            
+            // Close notification
+            document.getElementById('closeNotification').addEventListener('click', function() {
+                document.getElementById('welcomeNotification').classList.remove('show');
+            });
+            
+            // Morse code dictionary
+            const morseCode = {
+                'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..', 'E': '.', 
+                'F': '..-.', 'G': '--.', 'H': '....', 'I': '..', 'J': '.---',
+                'K': '-.-', 'L': '.-..', 'M': '--', 'N': '-.', 'O': '---',
+                'P': '.--.', 'Q': '--.-', 'R': '.-.', 'S': '...', 'T': '-',
+                'U': '..-', 'V': '...-', 'W': '.--', 'X': '-..-', 'Y': '-.--', 
+                'Z': '--..', '0': '-----', '1': '.----', '2': '..---', '3': '...--',
+                '4': '....-', '5': '.....', '6': '-....', '7': '--...', '8': '---..',
+                '9': '----.', '.': '.-.-.-', ',': '--..--', '?': '..--..', "'": '.----.',
+                '!': '-.-.--', '/': '-..-.', '(': '-.--.', ')': '-.--.-', '&': '.-...',
+                ':': '---...', ';': '-.-.-.', '=': '-...-', '+': '.-.-.', '-': '-....-',
+                '_': '..--.-', '"': '.-..-.', '$': '...-..-', '@': '.--.-.', ' ': '/'
+            };
+            
+            // Reverse dictionary for Morse to text
+            const reverseMorseCode = {};
+            for (const [key, value] of Object.entries(morseCode)) {
+                reverseMorseCode[value] = key;
+            }
+            
+            // Character limit
+            const MAX_CHARS = 5000;
+            
+            // Elements
+            const textInput = document.getElementById('textInput');
+            const outputText = document.getElementById('outputText');
+            const inputCharCount = textInput.parentElement.querySelector('.character-count');
+            const outputCharCount = outputText.parentElement.querySelector('.character-count');
+            
+            // Update character count
+            function updateCharCount() {
+                const count = textInput.value.length;
+                inputCharCount.textContent = `${count}/${MAX_CHARS}`;
+                
+                if (count > MAX_CHARS * 0.8) {
+                    inputCharCount.classList.add('text-yellow-400');
+                } else if (count > MAX_CHARS * 0.9) {
+                    inputCharCount.classList.add('text-red-400');
+                    inputCharCount.classList.remove('text-yellow-400');
+                } else {
+                    inputCharCount.classList.remove('text-yellow-400', 'text-red-400');
+                }
+            }
+            
+            // Validate input
+            function validateInput(isMorse = false) {
+                const input = textInput.value.trim();
+                textInput.classList.remove('valid', 'invalid');
+                
+                if (input === '') {
+                    return true; // Empty input is valid (just nothing to convert)
+                }
+                
+                if (isMorse) {
+                    // Check if input contains only valid Morse characters, spaces and slashes
+                    const validMorseChars = /^[.\-\/\s]+$/;
+                    if (!validMorseChars.test(input)) {
+                        textInput.classList.add('invalid');
+                        return false;
+                    }
+                } else {
+                    // Check if input contains only characters in our dictionary
+                    const inputChars = input.toUpperCase().split('');
+                    const invalidChars = inputChars.filter(char => !morseCode[char] && char !== ' ');
+                    
+                    if (invalidChars.length > 0) {
+                        textInput.classList.add('invalid');
+                        return false;
+                    }
+                }
+                
+                textInput.classList.add('valid');
+                return true;
+            }
+            
+            // Text to Morse conversion
+            function textToMorse(text) {
+                return text.toUpperCase().split('').map(char => {
+                    return morseCode[char] || '?';
+                }).join(' ');
+            }
+            
+            // Morse to text conversion
+            function morseToText(morse) {
+                return morse.split(' ').map(code => {
+                    return reverseMorseCode[code] || '?';
+                }).join('');
+            }
+            
+            // Convert text
+            function convertText(isMorse = false) {
+                const input = textInput.value.trim();
+                
+                if (input === '') {
+                    outputText.value = '';
+                    outputCharCount.textContent = '0/5000';
+                    return;
+                }
+                
+                if (!validateInput(isMorse)) {
+                    outputText.value = 'Input tidak valid! Periksa karakter yang Anda masukkan.';
+                    return;
+                }
+                
+                // Show loading effect
+                const originalOutput = outputText.value;
+                outputText.value = 'Mengkonversi...';
+                
+                // Simulate loading for effect
+                setTimeout(() => {
+                    try {
+                        let result;
+                        if (isMorse) {
+                            result = morseToText(input);
+                        } else {
+                            result = textToMorse(input);
+                        }
+                        
+                        outputText.value = result;
+                        outputCharCount.textContent = `${result.length}/${MAX_CHARS}`;
+                    } catch (e) {
+                        outputText.value = 'Terjadi kesalahan saat konversi: ' + e.message;
+                    }
+                }, 300);
+            }
+            
+            // Play Morse audio
+            function playMorseAudio() {
+                const morse = outputText.value;
+                if (!morse || morse === 'Mengkonversi...') return;
+                
+                const audio = document.getElementById('morseAudio');
+                const dots = morse.split('');
+                let currentTime = 0;
+                
+                // Clear previous timeouts if any
+                if (window.morseTimeouts) {
+                    window.morseTimeouts.forEach(timeout => clearTimeout(timeout));
+                }
+                window.morseTimeouts = [];
+                
+                // Create a visual feedback
+                const originalBtnText = document.getElementById('playAudio').innerHTML;
+                document.getElementById('playAudio').innerHTML = '<div class="loader"></div>';
+                document.getElementById('playAudio').disabled = true;
+                
+                dots.forEach((char, index) => {
+                    if (char === '.') {
+                        window.morseTimeouts.push(setTimeout(() => {
+                            audio.currentTime = 0;
+                            audio.play();
+                        }, currentTime));
+                        currentTime += 300; // Dot duration
+                    } else if (char === '-') {
+                        window.morseTimeouts.push(setTimeout(() => {
+                            audio.currentTime = 0;
+                            audio.play();
+                        }, currentTime));
+                        currentTime += 700; // Dash duration
+                    } else if (char === ' ') {
+                        currentTime += 300; // Space between characters
+                    } else if (char === '/') {
+                        currentTime += 700; // Space between words
+                    }
+                });
+                
+                // Reset button after playback
+                window.morseTimeouts.push(setTimeout(() => {
+                    document.getElementById('playAudio').innerHTML = originalBtnText;
+                    document.getElementById('playAudio').disabled = false;
+                }, currentTime + 500));
+            }
+            
+            // Event listeners
+            textInput.addEventListener('input', function() {
+                updateCharCount();
+                // Auto-convert if both language selections are different
+                const inputLang = document.getElementById('inputLanguage').value;
+                const outputLang = document.getElementById('outputLanguage').value;
+                
+                if (inputLang !== outputLang && inputLang !== 'morse' && outputLang === 'morse') {
+                    convertText(false);
+                } else if (inputLang !== outputLang && inputLang === 'morse' && outputLang !== 'morse') {
+                    convertText(true);
+                }
+            });
+            
+            document.getElementById('toMorse').addEventListener('click', function() {
+                document.getElementById('inputLanguage').value = 'id';
+                document.getElementById('outputLanguage').value = 'morse';
+                convertText(false);
+            });
+            
+            document.getElementById('toText').addEventListener('click', function() {
+                document.getElementById('inputLanguage').value = 'morse';
+                document.getElementById('outputLanguage').value = 'id';
+                convertText(true);
+            });
+            
+            document.getElementById('clearInput').addEventListener('click', function() {
+                textInput.value = '';
+                updateCharCount();
+                if (outputText.value.startsWith('Mengkonversi...')) {
+                    outputText.value = '';
+                    outputCharCount.textContent = '0/5000';
+                }
+            });
+            
+            document.getElementById('clearOutput').addEventListener('click', function() {
+                outputText.value = '';
+                outputCharCount.textContent = '0/5000';
+            });
+            
+            document.getElementById('copyOutput').addEventListener('click', function() {
+                outputText.select();
+                document.execCommand('copy');
+                showCopyFeedback(this);
+            });
+            
+            document.getElementById('playAudio').addEventListener('click', playMorseAudio);
+            
+            // Language change handlers
+            document.getElementById('inputLanguage').addEventListener('change', function() {
+                const outputLang = document.getElementById('outputLanguage').value;
+                if (this.value === 'morse' && outputLang !== 'morse') {
+                    convertText(true);
+                } else if (this.value !== 'morse' && outputLang === 'morse') {
+                    convertText(false);
+                }
+            });
+            
+            document.getElementById('outputLanguage').addEventListener('change', function() {
+                const inputLang = document.getElementById('inputLanguage').value;
+                if (inputLang === 'morse' && this.value !== 'morse') {
+                    convertText(true);
+                } else if (inputLang !== 'morse' && this.value === 'morse') {
+                    convertText(false);
+                }
+            });
+            
+            // Copy feedback animation
+            function showCopyFeedback(button) {
+                const originalText = button.innerHTML;
+                button.innerHTML = '<i class="fas fa-check mr-2"></i> Tersalin!';
+                button.classList.remove('bg-green-600', 'hover:bg-green-700');
+                button.classList.add('bg-blue-600', 'hover:bg-blue-700');
+                
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                    button.classList.remove('bg-blue-600', 'hover:bg-blue-700');
+                    button.classList.add('bg-green-600', 'hover:bg-green-700');
+                }, 2000);
+            }
+            
+            // Initialize
+            updateCharCount();
+            
+            // Add touch feedback for mobile
+            const buttons = document.querySelectorAll('button');
+            buttons.forEach(button => {
+                button.addEventListener('touchstart', function() {
+                    this.classList.add('opacity-90');
+                });
+                
+                button.addEventListener('touchend', function() {
+                    setTimeout(() => {
+                        this.classList.remove('opacity-90');
+                    }, 100);
+                });
+            });
+            
+            // Add hover effects
+            const hoverElements = document.querySelectorAll('.btn-hover, .language-flag, select');
+            hoverElements.forEach(element => {
+                element.addEventListener('mouseenter', function() {
+                    this.classList.add('transition-all', 'duration-300', 'ease-in-out');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
